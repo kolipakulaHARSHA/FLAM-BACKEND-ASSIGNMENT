@@ -48,6 +48,11 @@ public class EnqueueCommand implements Runnable {
                 job.setMaxRetries(3);
             }
             
+            // Set default timeout if not provided (5 minutes)
+            if (job.getTimeoutSeconds() == 0) {
+                job.setTimeoutSeconds(300);
+            }
+            
             Instant now = Instant.now();
             job.setCreatedAt(now);
             job.setUpdatedAt(now);

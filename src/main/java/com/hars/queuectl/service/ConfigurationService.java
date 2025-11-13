@@ -29,6 +29,7 @@ public class ConfigurationService {
             defaultConfig.put("max-retries", 3);
             defaultConfig.put("poll-interval-ms", 500);
             defaultConfig.put("base-backoff-ms", 1000);
+            defaultConfig.put("default-timeout-seconds", 300); // 5 minutes default
             saveConfig(defaultConfig);
         }
     }

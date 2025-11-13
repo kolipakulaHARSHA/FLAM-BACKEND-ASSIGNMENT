@@ -42,12 +42,13 @@ public class Job {
     }
 
     // Constructor with parameters
-    public Job(String id, String command, JobState state, int attempts, int maxRetries, Instant createdAt, Instant updatedAt) {
+    public Job(String id, String command, JobState state, int attempts, int maxRetries, long timeoutSeconds, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.command = command;
         this.state = state;
         this.attempts = attempts;
         this.maxRetries = maxRetries;
+        this.timeoutSeconds = timeoutSeconds;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -93,6 +94,14 @@ public class Job {
         this.maxRetries = maxRetries;
     }
 
+    public long getTimeoutSeconds() {
+        return timeoutSeconds;
+    }
+
+    public void setTimeoutSeconds(long timeoutSeconds) {
+        this.timeoutSeconds = timeoutSeconds;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -117,6 +126,7 @@ public class Job {
                 ", state=" + state +
                 ", attempts=" + attempts +
                 ", maxRetries=" + maxRetries +
+                ", timeoutSeconds=" + timeoutSeconds +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

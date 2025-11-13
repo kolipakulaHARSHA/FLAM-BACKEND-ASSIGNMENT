@@ -101,8 +101,36 @@ public class WorkerService {
                         job.setUpdatedAt(Instant.now());
                         jobRepository.updateJob(job);
                         System.out.println("Worker " + workerId + " completed job: " + job.getId());
+                    } else if (exitCode == JobExecutor.EXIT_CODE_TIMEOUT) {
+                        // Timeout - treat as failure but with specific message
+                        job.setAttempts(job.getAttempts() + 1);
+                        job.setUpdatedAt(Instant.now());
+                        
+                        if (job.getAttempts() < job.getMaxRetries()) {
+                            // Retry with exponential backoff
+                            job.setState(Job.JobState.FAILED);
+                            jobRepository.updateJob(job);
+                            
+                            long backoffDelay = calculateBackoff(job.getAttempts());
+                            System.out.println("Worker " + workerId + " - Job " + job.getId() + 
+                                    " timed out (attempt " + job.getAttempts() + "/" + job.getMaxRetries() + 
+                                    "), retrying in " + backoffDelay + "ms");
+                            
+                            Thread.sleep(backoffDelay);
+                            
+                            // Set back to PENDING for retry
+                            job.setState(Job.JobState.PENDING);
+                            job.setUpdatedAt(Instant.now());
+                            jobRepository.updateJob(job);
+                        } else {
+                            // Max retries reached, move to dead letter queue
+                            job.setState(Job.JobState.DEAD);
+                            jobRepository.updateJob(job);
+                            System.out.println("Worker " + workerId + " - Job " + job.getId() + 
+                                    " moved to dead letter queue after timeout (" + job.getAttempts() + " attempts)");
+                        }
                     } else {
-                        // Failure
+                        // Other failure
                         job.setAttempts(job.getAttempts() + 1);
                         job.setUpdatedAt(Instant.now());
                         
