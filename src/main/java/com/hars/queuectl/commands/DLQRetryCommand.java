@@ -10,7 +10,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 @Command(
-    name = "dlq-retry",
+    name = "retry",
     description = "Retry a job from dead letter queue"
 )
 public class DLQRetryCommand implements Runnable {

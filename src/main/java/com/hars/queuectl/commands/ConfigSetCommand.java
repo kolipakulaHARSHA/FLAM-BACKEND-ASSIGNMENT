@@ -6,7 +6,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 @Command(
-    name = "config",
+    name = "set",
     description = "Configure settings"
 )
 public class ConfigSetCommand implements Runnable {

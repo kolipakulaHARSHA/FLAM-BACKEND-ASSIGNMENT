@@ -1,5 +1,6 @@
 package com.hars.queuectl.service;
 
+import java.io.File;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -19,6 +20,7 @@ public class WorkerService {
     // Configuration
     private static final long POLL_INTERVAL_MS = 500;
     private static final long BASE_BACKOFF_MS = 1000; // 1 second base delay
+    private static final String STOP_SIGNAL_FILE = "worker.stop";
     
     public WorkerService(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
@@ -83,6 +85,14 @@ public class WorkerService {
         
         while (running) {
             try {
+                // Check for stop signal before picking up new job
+                File stopSignal = new File(STOP_SIGNAL_FILE);
+                if (stopSignal.exists()) {
+                    System.out.println("Worker " + workerId + " received stop signal. Finishing current tasks...");
+                    running = false;
+                    break;
+                }
+                
                 // Atomically find and lock the next pending job
                 Optional<Job> optionalJob = jobRepository.findAndLockNextPendingJob();
                 

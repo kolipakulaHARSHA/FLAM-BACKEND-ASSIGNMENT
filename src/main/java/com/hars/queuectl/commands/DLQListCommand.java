@@ -11,7 +11,7 @@ import com.hars.queuectl.service.JobRepository;
 import picocli.CommandLine.Command;
 
 @Command(
-    name = "dlq-list",
+    name = "list",
     description = "List dead letter queue jobs"
 )
 public class DLQListCommand implements Runnable {

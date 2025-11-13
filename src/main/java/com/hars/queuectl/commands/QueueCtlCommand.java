@@ -10,12 +10,11 @@ import picocli.CommandLine.Command;
     version = "1.0",
     subcommands = {
         EnqueueCommand.class,
-        WorkerStartCommand.class,
+        WorkerCommand.class,
         StatusCommand.class,
         ListCommand.class,
-        DLQListCommand.class,
-        DLQRetryCommand.class,
-        ConfigSetCommand.class
+        DLQCommand.class,
+        ConfigCommand.class
     }
 )
 public class QueueCtlCommand implements Runnable {

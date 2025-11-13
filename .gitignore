@@ -33,6 +33,8 @@ buildNumber.properties
 # Runtime data
 jobs.json
 config.json
+worker.pid
+worker.stop
 
 # Documentation (except README)
 *.md
