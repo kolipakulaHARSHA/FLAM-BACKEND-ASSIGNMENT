@@ -1,5 +1,6 @@
 package com.hars.queuectl.commands;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -62,9 +63,8 @@ public class EnqueueCommand implements Runnable {
             
             System.out.println("Job enqueued successfully: " + job.getId());
             
-        } catch (Exception e) {
+        } catch (IOException | IllegalArgumentException e) {
             System.err.println("Failed to enqueue job: " + e.getMessage());
-            e.printStackTrace();
             System.exit(1);
         }
     }

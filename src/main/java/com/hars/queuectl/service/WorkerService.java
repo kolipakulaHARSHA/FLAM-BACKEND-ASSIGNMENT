@@ -173,20 +173,17 @@ public class WorkerService {
                     Thread.sleep(POLL_INTERVAL_MS);
                 }
                 
-            } catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                 System.out.println("Worker " + workerId + " interrupted");
                 Thread.currentThread().interrupt();
                 break;
             } catch (Exception e) {
                 System.err.println("Worker " + workerId + " encountered error: " + e.getMessage());
-                e.printStackTrace();
             }
         }
         
         System.out.println("Worker " + workerId + " stopped");
-    }
-    
-    /**
+    }    /**
      * Calculate exponential backoff delay
      * @param attempts Number of attempts
      * @return Delay in milliseconds

@@ -81,16 +81,11 @@ public class WorkerStopCommand implements Runnable {
                 }
             }
             
-        } catch (IOException e) {
-            System.err.println("Failed to read PID file: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.err.println("Invalid PID in file: " + e.getMessage());
         } catch (InterruptedException e) {
             System.err.println("Interrupted while waiting for workers to stop");
             Thread.currentThread().interrupt();
-        } catch (Exception e) {
+        } catch (IOException | NumberFormatException e) {
             System.err.println("Error stopping workers: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }

@@ -22,17 +22,19 @@ public class ConfigSetCommand implements Runnable {
         ConfigurationService configService = new ConfigurationService();
         configService.initialize();
         
-        // Try to parse value as integer
-        Object configValue;
-        try {
-            configValue = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            // Keep as string
-            configValue = value;
-        }
+        // Try to parse value as integer, otherwise keep as string
+        Object configValue = parseValue(value);
         
         configService.set(key, configValue);
         
         System.out.println("Configuration updated: " + key + " = " + configValue);
+    }
+    
+    private Object parseValue(String val) {
+        try {
+            return Integer.valueOf(val);
+        } catch (NumberFormatException e) {
+            return val;
+        }
     }
 }

@@ -47,6 +47,7 @@
   </dependencies>
 
   <build>
+    <finalName>queuectl</finalName>
     <plugins>
       <!-- Maven Shade Plugin to create a single executable JAR -->
       <plugin>
